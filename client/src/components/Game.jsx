@@ -11,7 +11,7 @@ import GameForfeit from './GameForfeit.jsx';
 import GameState from './GameState.jsx';
 import Logo from './Logo.jsx';
 import css from '../styles.css';
-import debounce from 'lodash';
+import _filter from 'lodash';
 
 import help from './../../../utils/helpers.js'
 
@@ -244,6 +244,17 @@ export default class Game extends Component {
             attacking: false
         });
       },
+      attackWithMove: (move) => {
+        this.state.socket.emit('attack with move', {
+          gameid: this.props.match.params.gameid,
+          name: this.state.name,
+          pokemon: this.state.pokemon,
+          move: move
+        });
+        this.setState({
+            attacking: false
+        });
+      },
       choose: (pokemonToSwap) => {
         let isAvailable = false;
         let index;
@@ -267,7 +278,6 @@ export default class Game extends Component {
           alert('You do not have that pokemon!');
         }
       },
-
       flee: () => {
         this.state.socket.emit('flee', {
           gameid: this.props.match.params.gameid,
@@ -295,7 +305,6 @@ export default class Game extends Component {
       if (value === 'flee') {
         this.commandHandlers().flee();
       } else if (value === 'attack') {
-        //***TODO***^ value.split(' )[0] === 'attack'
         if (this.state.pokemon[0].health <= 0) {
           alert('you must choose a new pokemon, this one has fainted!');
         } else {
@@ -303,11 +312,20 @@ export default class Game extends Component {
           this.setState({
             attacking: true
           })
-          //***TODO*** pass value.split(' ')[1] to below command handler
           setTimeout(() => this.commandHandlers().attack(), 300);  
         }
       } else if (value.split(' ')[0] === "choose") {
         this.commandHandlers().choose(value.split(' ')[1]); 
+      //check to see if move typed in the terminal exists on the active pokemon
+      } else if (this.state.pokemon[0].moves._filter((currMove) => {return currMove.name === value}) !== undefined) {
+        //attacking state determines if front or back sprite is rendered on GameView component
+        this.setState({
+          attacking: true
+        })
+
+        let move = this.state.pokemon[0].moves._filter((currMove) => {return currMove.name === value})
+
+        setTimeout(() => this.commandHandlers().attackWithMove(move), 300); 
       } else {
         alert('invalid input!')
       }
