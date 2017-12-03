@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Pokemon from './Pokemon.jsx';
 import PokemonStats from './PokemonStats.jsx';
+import PokemonMoves from './PokemonMoves.jsx';
 import css from '../styles.css';
 
 const GameView = (props) => {
@@ -13,6 +14,7 @@ const GameView = (props) => {
       <div className={css.pokeView}>
         <Pokemon sprite={props.pokemon[0].sprites.back_default} attacking={props.attacking} />
         <PokemonStats stats={props.pokemon[0]} />
+        <PokemonMoves moves={props.moves}/>
       </div>
     </div>
   )
