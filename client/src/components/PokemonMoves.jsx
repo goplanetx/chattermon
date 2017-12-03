@@ -7,8 +7,8 @@ const PokemonMoves = (props) => {
 			<div className={css.stats}>
         <h3>Attacks</h3>
         {props.pokemon.map(move =>
-          <li>{move.name}</li>)}
-      </div>
+          <li key={move.name}>{move.name}</li>)}
+      </div>  
 		);
 
 }
