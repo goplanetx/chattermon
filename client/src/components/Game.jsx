@@ -368,7 +368,7 @@ export default class Game extends Component {
   
 
   renderGame() {
-    const { pokemon, opponent, winner, loser, name, attacking } = this.state;
+    const { pokemon, opponent, winner, loser, name, attacking, moves } = this.state;
     if (!this.state.opponent) {
       return (
         <div className={css.loading}>
@@ -380,7 +380,7 @@ export default class Game extends Component {
     } else if(this.state.forfeited) {
       return <GameForfeit winner={winner} loser={loser} pokemon={pokemon}/>
     } else {
-      return <GameView opponent={opponent} pokemon={pokemon} attacking={attacking} />
+      return <GameView opponent={opponent} pokemon={pokemon} attacking={attacking} moves={moves}/>
     }
   }
 
