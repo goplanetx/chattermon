@@ -9,20 +9,11 @@ export default class PokemonCard extends Component {
     this.state = {
       renderSprite: true
     }
-
-    this.toggleHoverState = this.toggleHoverState.bind(this);
-  }
-
-  toggleHoverState() {
-    this.setState({
-      renderSprite: !this.state.renderSprite
-    })
-    console.log('sprite state is ', this.state);
   }
 
   render() {
     return (
-      <div onMouseEnter={this.toggleHoverState} onMouseLeave={this.toggleHoverState}>
+      <div>
         <Sprite sprites={this.props.sprites} />
         <h5 style={{marginBottom: '0px', marginTop: '2px', bottom: 0}}>{this.props.name}</h5>
         <h6 style={{marginBottom: '0px'}}>{this.props.type[0]}</h6>
@@ -31,5 +22,3 @@ export default class PokemonCard extends Component {
     )
   }
 }
-
-        // {this.state.renderSprite ? <Sprite sprites={this.props.sprites} /> : <PokemonMoves moveList={this.props.moves}/> }
