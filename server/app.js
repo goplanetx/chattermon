@@ -8,6 +8,8 @@ const db = require('../database/db.js');
 const bodyParser = require('body-parser');
 const Promise = require('bluebird');
 
+// const config = require('/config.js');
+
 const bcrypt = require('bcrypt');
 // const bcrypt = Promise.promisifyAll(require('bcrypt'));
 const passport = require('passport');
@@ -59,9 +61,6 @@ if (process.env.NODE_ENV !== 'production') {
     publicPath: config.output.publicPathdist
   }));
 }
-
-
-/*ALL THE NEW STUFF*/
 
 //============SESSION SETUP=============//
 // Peer into passport session
@@ -181,12 +180,17 @@ function(req, username, password, done) {
 
 
 //============LOCAL LOGIN=============//
-
+var cbURL;
+if (process.env.PORT) {
+  cbURL = process.env.FACEBOOK_CALLBACK_URL;
+} else {
+  cbURL = 'http://localhost:3000/login/facebook/return'
+}
 
 passport.use(new FacebookStrategy({
   clientID: '230138997524272',
   clientSecret: 'c043a4dd8b23783b4a6bbe3bcfcb3672',
-  callbackURL: 'http://localhost:3000/login/facebook/return'
+  callbackURL: cbURL
 },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
