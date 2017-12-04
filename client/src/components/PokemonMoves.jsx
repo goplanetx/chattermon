@@ -4,10 +4,9 @@ import css from '../styles.css';
 const PokemonMoves = (props) => {
 
 	return (
-		<div className={css.stats}>
-      <h3>Attacks</h3>
+		<div className={css.moves}>
       {props.pokemon.moves.map(move =>
-        <li key={move.name}>{move.name}</li>)}
+        <div key={move.name}>{move.name}</div>)}
     </div>  
 	);
 
